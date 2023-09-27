@@ -123,7 +123,7 @@ Array.from(document.getElementsByClassName("songItemplay")).forEach(
 
 previous.addEventListener("click", () => {
   if (songIndex === 0) {
-    songIndex = 4;
+    songIndex = songs.length - 1;
   } else {
     songIndex -= 1;
   }
@@ -142,7 +142,7 @@ previous.addEventListener("click", () => {
 });
 
 next.addEventListener("click", () => {
-  if (songIndex >= 4) {
+  if (songIndex >= songs.length - 1) {
     songIndex = 0;
   } else {
     songIndex += 1;
