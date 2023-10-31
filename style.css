@@ -26,6 +26,8 @@ nav {
     position: sticky;
     top: 0;
     color: #16213E;
+
+    text-align: center;
 }
 
 .container {
