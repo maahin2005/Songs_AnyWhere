@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Songs AnyWhere</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <nav class="brand"><h2>Songs AnyWhere - Mahin Malek</h2></nav>
+    <nav class="brand"><h2>Songs AnyWhere</h2></nav>
     <div class="container">
       <div class="SongList">
         <div class="songItemContainer">
@@ -18,7 +19,6 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
                   id="0"
                 ></i>
               </span>
@@ -31,7 +31,6 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
                   id="1"
                 ></i>
               </span>
@@ -44,7 +43,6 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
                   id="2"
                 ></i>
               </span>
@@ -57,7 +55,6 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
                   id="3"
                 ></i>
               </span>
@@ -70,7 +67,6 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
                   id="4"
                 ></i>
               </span>
@@ -83,8 +79,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="5"
                 ></i>
               </span>
             </span>
@@ -96,8 +91,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="6"
                 ></i>
               </span>
             </span>
@@ -109,8 +103,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="7"
                 ></i>
               </span>
             </span>
@@ -122,8 +115,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="8"
                 ></i>
               </span>
             </span>
@@ -135,8 +127,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="9"
                 ></i>
               </span>
             </span>
@@ -148,8 +139,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="10"
                 ></i>
               </span>
             </span>
@@ -161,8 +151,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="11"
                 ></i>
               </span>
             </span>
@@ -174,8 +163,7 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="12"
                 ></i>
               </span>
             </span>
@@ -187,41 +175,50 @@
               ><span>
                 <i
                   class="fa-regular fa-2x fa-circle-play songItemplay"
-                  style="color: #ff38a2"
-                  id="4"
+                  id="13"
                 ></i>
               </span>
             </span>
           </div>
         </div>
       </div>
-      <div class="BannerSong"></div>
     </div>
     <div class="Bottom">
-      <input
-        type="range"
-        name="range"
-        id="myProgressBar"
-        value="0"
-        min="0"
-        max="100"
-      />
+      <!-- //////////////////// -->
+      <div class="progress-container" id="progress-container">
+        <input
+          type="range"
+          name="range"
+          id="myProgressBar"
+          class="progresses"
+          value="0"
+          min="0"
+          max="100"
+        />
+        <div class="duration-wrapper">
+          <span id="current-time">0:00</span>
+          <span id="duration">2:06</span>
+        </div>
+      </div>
+      <!-- //////////////////// -->
       <div class="icons">
         <i
-          class="fa-solid fa-2x fa-backward"
+          class="fa-solid fa-2x fa-backward-step"
           id="previous"
-          style="color: #ff38a2"
+          title="Previous"
+        ></i>
+        <i
+          class="fa-solid fa-2x fa-backward"
+          id="previousSec"
+          title="Skip -10s"
         ></i>
         <i
           class="fa-regular fa-2x fa-circle-play"
-          style="color: #ff38a2"
           id="masterPlay"
+          title="Play"
         ></i>
-        <i
-          class="fa-solid fa-2x fa-forward"
-          id="next"
-          style="color: #ff38a2"
-        ></i>
+        <i class="fa-solid fa-2x fa-forward" id="nextSec" title="Skip +10s"></i>
+        <i class="fa-solid fa-2x fa-forward-step" id="next" title="Next"></i>
       </div>
       <div class="songInfo">
         <span id="masterSongName"></span>
