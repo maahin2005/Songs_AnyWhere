@@ -1,5 +1,6 @@
 console.log("welcome");
 
+// DOM
 let songIndex = 0;
 let progress;
 let audioElement = new Audio("songsList/0.mp3");
@@ -9,6 +10,8 @@ let masterSongName = document.getElementById("masterSongName");
 let next = document.getElementById("next");
 let previous = document.getElementById("previous");
 let songItem;
+
+// Songs : Name, Song, cover
 let songs = [
   {
     songName: "Khaab - Akhil",
@@ -96,33 +99,66 @@ function initialize() {
 
 initialize();
 
-function updateMasterPlayButton() {
-  if (audioElement.paused || audioElement.currentTime <= 0) {
-    masterPlay.classList.remove("fa-circle-pause");
-    masterPlay.classList.add("fa-circle-play");
+// The songItemPlay
+function updateSongItemPlayButtonState(index) {
+  const songItemPlayButtons = document.querySelectorAll(".songItemplay");
+  const currentButton = songItemPlayButtons[index];
+
+  if (
+    !audioElement.paused &&
+    audioElement.currentTime > 0 &&
+    songIndex === index
+  ) {
+    // Update songItemPlay button
+    currentButton.classList.remove("fa-circle-play");
+    currentButton.classList.add("fa-circle-pause");
   } else {
-    masterPlay.classList.remove("fa-circle-play");
-    masterPlay.classList.add("fa-circle-pause");
+    currentButton.classList.remove("fa-circle-pause");
+    currentButton.classList.add("fa-circle-play");
   }
 }
 
-masterPlay.addEventListener("click", () => {
+// The masterPlay button
+function updateMasterPlayButton() {
   if (audioElement.paused || audioElement.currentTime <= 0) {
     audioElement.play();
-    masterSongName.innerText = songs[songIndex].songName;
-    // masterPlay.classList.remove("fa-circle-pause");
-    // masterPlay.classList.add("fa-circle-play");
+    masterPlay.classList.remove("fa-circle-play");
+    masterPlay.classList.add("fa-circle-pause");
+    document.body.classList.add("playing"); // Add 'playing' class to body
   } else {
     audioElement.pause();
-    // masterPlay.classList.remove("fa-circle-play");
-    // masterPlay.classList.add("fa-circle-pause");
+    masterPlay.classList.remove("fa-circle-pause");
+    masterPlay.classList.add("fa-circle-play");
+    document.body.classList.remove("playing"); // Add 'playing' class to body
+  }
+}
+
+// masterPlay Event Handler
+masterPlay.addEventListener("click", () => {
+  if (audioElement.paused || audioElement.currentTime <= 0) {
+    masterSongName.innerText = songs[songIndex].songName;
+    masterPlay.setAttribute("title", "Pause");
+  } else {
+    masterPlay.setAttribute("title", "Play");
   }
   updateMasterPlayButton();
+  updateSongItemPlayButtonState(songIndex);
 });
 
+// Progress Bar and the time update
 audioElement.addEventListener("timeupdate", () => {
   progress = (audioElement.currentTime / audioElement.duration) * 100;
   myProgressBar.value = progress;
+
+  // Update the current time display
+  const currentTimeMinutes = Math.floor(audioElement.currentTime / 60);
+  const currentTimeSeconds = Math.floor(audioElement.currentTime % 60);
+  document.getElementById("current-time").innerText =
+    currentTimeMinutes +
+    ":" +
+    (currentTimeSeconds < 10 ? "0" : "") +
+    currentTimeSeconds;
+  updateSongItemPlayButtonState(songIndex);
 });
 
 myProgressBar.addEventListener("input", () => {
@@ -130,6 +166,7 @@ myProgressBar.addEventListener("input", () => {
     (myProgressBar.value * audioElement.duration) / 100;
 });
 
+// songItemPlay button for the current song
 function makeAllPlaying() {
   songItem.forEach((element) => {
     element.querySelector(".songItemplay").classList.remove("fa-circle-pause");
@@ -137,40 +174,74 @@ function makeAllPlaying() {
   });
 }
 
+// The songItemsPlay  Update
 songItem.forEach((element, i) => {
   element.querySelector(".songItemplay").addEventListener("click", () => {
     if (songIndex === i) {
       if (audioElement.paused || audioElement.currentTime <= 0) {
         audioElement.play();
+        updateMasterPlayButton();
       } else {
         audioElement.pause();
+        updateMasterPlayButton();
       }
     } else {
       makeAllPlaying();
-      element.querySelector(".songItemplay").classList.remove("fa-circle-play");
-      element.querySelector(".songItemplay").classList.add("fa-circle-pause");
-
       masterSongName.innerText = songs[i].songName;
       songIndex = i;
       audioElement.src = songs[i].filePath;
       audioElement.play();
     }
     updateMasterPlayButton();
+    updateSongItemPlayButtonState(i);
   });
 });
 
+// Update Master Play when clicked on forward and backward  buttons
+let updateMasterPlayFB = function () {
+  masterPlay.classList.remove("fa-circle-play");
+  masterPlay.classList.add("fa-circle-pause");
+  document.body.classList.add("playing"); // Add 'playing' class to body
+};
+
+// next and previous buttons
 previous.addEventListener("click", () => {
+  let prevIndex = songIndex;
   songIndex = (songIndex - 1 + songs.length) % songs.length;
   audioElement.src = songs[songIndex].filePath;
   audioElement.play();
   masterSongName.innerText = songs[songIndex].songName;
-  updateMasterPlayButton();
+  updateMasterPlayFB();
+  updateSongItemPlayButtonState(songIndex);
+  updateSongItemPlayButtonState(prevIndex); // Update the previous song's button
 });
 
-next.addEventListener("click", () => {
+let nextSong = () => {
+  let prevIndex = songIndex;
   songIndex = (songIndex + 1) % songs.length;
   audioElement.src = songs[songIndex].filePath;
   audioElement.play();
   masterSongName.innerText = songs[songIndex].songName;
-  updateMasterPlayButton();
+  updateMasterPlayFB();
+  updateSongItemPlayButtonState(songIndex);
+  updateSongItemPlayButtonState(prevIndex); // Update the previous song's button
+};
+next.addEventListener("click", nextSong);
+
+// Play the next song when the current song is end
+audioElement.addEventListener("ended", () => {
+  nextSong();
+  updateSongItemPlayButtonState(songIndex);
 });
+
+// skip 10 second buttons
+function skipBackward() {
+  audioElement.currentTime -= 10;
+}
+function skipForward() {
+  audioElement.currentTime += 10;
+}
+document.getElementById("previousSec").addEventListener("click", skipBackward);
+document.getElementById("nextSec").addEventListener("click", skipForward);
+
+// // ////////////////////////////////////////////////////////////////////
